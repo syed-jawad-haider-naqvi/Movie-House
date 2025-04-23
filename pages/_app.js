@@ -1,5 +1,21 @@
-import "@/styles/globals.css";
+// pages/_app.js
+import '../styles/globals.css';
+import Head from 'next/head';
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Head>
+        <style jsx global>{`
+          /* Hide Next.js icon */
+          .nextjs-icon-container {
+            display: none !important;
+          }
+        `}</style>
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
+
+export default MyApp;

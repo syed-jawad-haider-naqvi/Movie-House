@@ -27,6 +27,9 @@ export default function Navbar() {
           <Link href="/directors" className="hover:text-blue-300 font-semibold">
             Directors
           </Link>
+          <Link href="/help" className="hover:text-blue-300 font-semibold">
+            Help
+          </Link>
         </div>
       </div>
     </nav>

@@ -6,17 +6,12 @@ import Head from 'next/head';
 
 export default function Home({ trendingMovies }) {
   const router = useRouter();
-
+  
   return (
     <>
       <Head>
         <title>SJ Movie Info</title>
         <link rel="icon" href="/favicon.ico" />
-        <style jsx global>{`
-          .nextjs-icon {
-            display: none !important;
-          }
-        `}</style>
       </Head>
       
       <Navbar />

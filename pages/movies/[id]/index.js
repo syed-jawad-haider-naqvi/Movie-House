@@ -1,3 +1,4 @@
+//pages/movie/[id]/index.js
 import Link from 'next/link';
 import Head from 'next/head';
 import Navbar from '../../../components/Navbar';
@@ -28,7 +29,7 @@ export default function MovieDetails({ movie, director, genre }) {
       
       <div className="container mx-auto px-4 py-8">
         <div className="bg-emerald-300 rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-4">{movie.title}</h1>
+          <h1 className="text-3xl font-bold mb-4 text-gray-800">{movie.title}</h1>
           
           <div className="mb-4 text-sm">
             <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">
@@ -49,12 +50,12 @@ export default function MovieDetails({ movie, director, genre }) {
           </div>
           
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Overview</h2>
+            <h2 className="text-xl font-semibold mb-2 text-gray-800">Overview</h2>
             <p className="text-gray-700">{movie.description}</p>
           </div>
           
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Director</h2>
+            <h2 className="text-xl font-semibold mb-2 text-gray-800">Director</h2>
             <p className="text-gray-700 mb-2">{director.name}</p>
             <Link 
               href={`/movies/${movie.id}/director`}
@@ -69,7 +70,7 @@ export default function MovieDetails({ movie, director, genre }) {
               onClick={() => router.back()}
               className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition-colors"
             >
-              Back to Movies
+              Go Back
             </button>
           </div>
         </div>
@@ -79,10 +80,10 @@ export default function MovieDetails({ movie, director, genre }) {
 }
 
 export async function getStaticPaths() {
-  const data = require('../../../public/data.json');
-  
+  const data =  await fetch('http:localhost:3000/api/movies');
+  const dataformatted = await data.json()
   // Create paths for the first few movies for initial build
-  const paths = data.movies.slice(0, 3).map(movie => ({
+  const paths = dataformatted.slice(0, 3).map(movie => ({
     params: { id: movie.id }
   }));
   
@@ -94,9 +95,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const data = require('../../../public/data.json');
-  
-  const movie = data.movies.find(m => m.id === params.id);
+  const data = await fetch('http:localhost:3000/api/movies');
+  const dataformatted  = await data.json()
+  const movie = dataformatted.find(m => m.id === params.id);
   
   // Return 404 if movie doesn't exist
   if (!movie) {
@@ -105,8 +106,13 @@ export async function getStaticProps({ params }) {
     };
   }
   
-  const director = data.directors.find(d => d.id === movie.directorId);
-  const genre = data.genres.find(g => g.id === movie.genreId);
+  const directordata = await fetch('http:localhost:3000/api/directors');
+  const directors = await directordata.json()
+  const director = directors.find(d => d.id === movie.directorId);
+
+  const genredata = await fetch('http:localhost:3000/api/genres');
+  const genres = await genredata.json();
+  const genre = genres.find(g => g.id === movie.genreId);
   
   return {
     props: {

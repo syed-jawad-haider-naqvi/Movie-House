@@ -40,9 +40,13 @@ export default function GenreDetails({ genre, movies }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const data = require('../../public/data.json');
   
-  const genre = data.genres.find(g => g.id === params.id);
+  const moviedata = await fetch("http://localhost:3000/api/movies");
+  const data = await moviedata.json()
+
+  const genredata = await fetch('http://localhost:3000/api/genres');
+  const genres = await genredata.json();  
+  const genre = genres.find(g => g.id === params.id);
   
   // Return 404 if genre doesn't exist
   if (!genre) {
@@ -52,7 +56,7 @@ export async function getServerSideProps({ params }) {
   }
   
   // Filter movies by this genre
-  const movies = data.movies.filter(movie => movie.genreId === params.id);
+  const movies = data.filter(movie => movie.genreId === params.id);
   
   return {
     props: {

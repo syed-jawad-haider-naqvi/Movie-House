@@ -19,7 +19,7 @@ export default function GenresPage({ genres }) {
             <Link 
               key={genre.id}
               href={`/genre/${genre.id}`}
-              className="bg-white rounded-lg shadow-md hover:shadow-lg p-6 text-center transition-shadow"
+              className="bg-white text-black rounded-lg shadow-md hover:shadow-lg p-6 text-center transition-shadow"
             >
               <h2 className="text-xl font-semibold">{genre.name}</h2>
             </Link>
@@ -31,11 +31,12 @@ export default function GenresPage({ genres }) {
 }
 
 export async function getServerSideProps() {
-  const data = require('../../public/data.json');
+  const genredata = await fetch('http://localhost:3000/api/genres');
+  const genres = await genredata.json();
   
   return {
     props: {
-      genres: data.genres
+      genres: genres
     }
   };
 }

@@ -53,12 +53,18 @@ export default function MoviesPage({ movies, genres }) {
 }
 
 export async function getStaticProps() {
-  const data = require('../../public/data.json');
+  const moviedata = await fetch("http://localhost:3000/api/movies");
+  const data = await moviedata.json()
+
+  const genredata = await fetch('http://localhost:3000/api/genres');
+  const genres = await genredata.json();
+  const genre = genres.find(g => g.id === data.genreId);
   
+
   return {
     props: {
-      movies: data.movies,
-      genres: data.genres
+      movies: data,
+      genres: genres
     },
     // Using ISR with revalidation every 60 seconds
     revalidate: 60

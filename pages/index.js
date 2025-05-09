@@ -40,18 +40,15 @@ export default function Home({ trendingMovies }) {
 }
 
 export async function getStaticProps() {
-  // In a real application, you might filter for trending movies
-  // For this assignment, we'll just use all movies or the top-rated ones
-  const data = require('../public/data.json');
-  
-  // Sort by rating to get "trending" movies
-  const trendingMovies = [...data.movies].sort((a, b) => b.rating - a.rating);
+  const moviedata = await fetch("http://localhost:3000/api/movies");
+  const data = await moviedata.json()
+  const trendingMovies = [...data].sort((a, b) => b.rating - a.rating);
   
   return {
     props: {
       trendingMovies
     },
-    // Implement ISR with revalidation every 60 seconds
+    // I Implemented ISR with revalidation every 60 seconds
     revalidate: 60
   };
 }

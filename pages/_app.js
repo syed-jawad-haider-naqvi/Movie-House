@@ -1,4 +1,5 @@
 // pages/_app.js
+import { ThemeProvider } from '@/context/ThemeContext';
 import '../styles/globals.css';
 import Head from 'next/head';
 
@@ -13,7 +14,9 @@ function MyApp({ Component, pageProps }) {
           }
         `}</style>
       </Head>
-      <Component {...pageProps} />
+      <ThemeProvider>
+         <Component {...pageProps} />
+      </ThemeProvider>
     </>
   );
 }

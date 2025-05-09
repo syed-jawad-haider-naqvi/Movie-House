@@ -1,11 +1,20 @@
 @import "tailwindcss";
-/* Animated Dark Gradient Background */
+
+/* Default Light Gradient Background */
 body {
-  background: linear-gradient(-45deg, #5454df, #ffff, #9f3ee3);
+  background: linear-gradient(-45deg, #5454df, #ffffff, #9f3ee3);
   background-size: 600% 600%;
   animation: gradientAnimation 20s ease infinite;
   margin: 0;
   padding: 0;
+}
+
+/* Dark Mode Gradient Background */
+body.dark {
+  color: rgb(255, 255, 255);
+  background: linear-gradient(-45deg, #240031, #000d31, #0a0a0a); /* indigo-950, purple-950, neutral-950 */
+  background-size: 600% 600%;
+  animation: gradientAnimation 20s ease infinite;
 }
 
 @keyframes gradientAnimation {
